@@ -1,0 +1,283 @@
+$ node --version
+v22.15.1
+$ uname -a
+Linux cs-934997784580-default 6.6.87+ #1 SMP PREEMPT_DYNAMIC Sat May 10 09:50:32 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+
+------
+
+GNU gdb (Ubuntu 15.0.50.20240403-0ubuntu1) 15.0.50.20240403-git
+Copyright (C) 2024 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from node...
+(gdb) run
+Starting program: /usr/local/nvm/versions/node/v22.15.1/bin/node index.mjs
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) y
+Debuginfod has been enabled.
+To make this setting permanent, add 'set debuginfod enabled on' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[New Thread 0x7ffff79fc6c0 (LWP 1972)]
+[New Thread 0x7ffff71f46c0 (LWP 1973)]
+[New Thread 0x7ffff69f36c0 (LWP 1974)]
+[New Thread 0x7ffff61f26c0 (LWP 1975)]
+[New Thread 0x7ffff59f16c0 (LWP 1976)]
+[New Thread 0x7ffff51486c0 (LWP 1977)]
+[New Thread 0x7ffff513f6c0 (LWP 1978)]
+[New Thread 0x7ffff493e6c0 (LWP 1979)]
+[New Thread 0x7fffcffff6c0 (LWP 1980)]
+[New Thread 0x7fffcf7fe6c0 (LWP 1981)]
+[New Thread 0x7fffce5ff6c0 (LWP 1982)]
+[New Thread 0x7fffcddfe6c0 (LWP 1983)]
+[New Thread 0x7fffcd5fd6c0 (LWP 1984)]
+
+Thread 11 "node" received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7fffcf7fe6c0 (LWP 1981)]
+Download failed: Invalid argument.  Continuing without source file ./nptl/./nptl/pthread_mutex_lock.c.
+___pthread_mutex_lock (mutex=0x7ff84ffb6e3b) at ./nptl/pthread_mutex_lock.c:80
+warning: 80     ./nptl/pthread_mutex_lock.c: No such file or directory
+(gdb) bt
+#0  ___pthread_mutex_lock (mutex=0x7ff84ffb6e3b) at ./nptl/pthread_mutex_lock.c:80
+#1  0x00007fffbe57ddd1 in duckdb::ClientContext::LockContext() ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#2  0x00007fffbe5aed9a in duckdb::ClientContext::PendingQuery(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, duckdb::shared_ptr<duckdb::PreparedStatementData, true>&, duckdb::PendingQueryParameters const&) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#3  0x00007fffbe5aef46 in duckdb::PreparedStatement::PendingQuery(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#4  0x00007fffbe5aefe9 in duckdb::PreparedStatement::Execute(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#5  0x00007fffbe4e1778 in duckdb_execute_prepared () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#6  0x00007ffff410ffbd in ExecutePreparedWorker::Execute() ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+#7  0x00007ffff410e735 in Napi::AsyncWorker::OnAsyncWorkExecute(napi_env__*, void*) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+#8  0x0000000000f173e9 in node::ThreadPoolWork::ScheduleWork()::{lambda(uv_work_s*)#1}::_FUN(uv_work_s*) ()
+#9  0x0000000001ca3140 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:122
+#10 0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#11 0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+(gdb) bt full
+#0  ___pthread_mutex_lock (mutex=0x7ff84ffb6e3b) at ./nptl/pthread_mutex_lock.c:80
+        type = <optimized out>
+        __PRETTY_FUNCTION__ = "___pthread_mutex_lock"
+        id = <optimized out>
+#1  0x00007fffbe57ddd1 in duckdb::ClientContext::LockContext() ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+No symbol table info available.
+#2  0x00007fffbe5aed9a in duckdb::ClientContext::PendingQuery(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, duckdb::shared_ptr<duckdb::PreparedStatementData, true>&, duckdb::PendingQueryParameters const&) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+No symbol table info available.
+#3  0x00007fffbe5aef46 in duckdb::PreparedStatement::PendingQuery(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+No symbol table info available.
+#4  0x00007fffbe5aefe9 in duckdb::PreparedStatement::Execute(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+No symbol table info available.
+#5  0x00007fffbe4e1778 in duckdb_execute_prepared () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+No symbol table info available.
+#6  0x00007ffff410ffbd in ExecutePreparedWorker::Execute() ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+No symbol table info available.
+#7  0x00007ffff410e735 in Napi::AsyncWorker::OnAsyncWorkExecute(napi_env__*, void*) ()
+   from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+No symbol table info available.
+#8  0x0000000000f173e9 in node::ThreadPoolWork::ScheduleWork()::{lambda(uv_work_s*)#1}::_FUN(uv_work_s*) ()
+No symbol table info available.
+#9  0x0000000001ca3140 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:122
+        w = 0x6a2b100
+        q = 0x6a2b118
+        is_slow_work = 0
+#10 0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+        ret = <optimized out>
+--Type <RET> for more, q to quit, c to continue without paging--
+        pd = <optimized out>
+        out = <optimized out>
+        unwind_buf = {cancel_jmp_buf = {{jmp_buf = {140736674653888, -3559900674258601314, 140736674653888, -448, 0, 140737488339328, -3559900674237629794,
+                -3559883717499520354}, mask_was_saved = 0}}, priv = {pad = {0x0, 0x0, 0x0, 0x0}, data = {prev = 0x0, cleanup = 0x0, canceltype = 0}}}
+        not_first_call = <optimized out>
+#11 0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+No locals.
+(gdb) info frame
+Stack level 0, frame at 0x7fffcf7fdaa0:
+ rip = 0x7ffff7aa0ff4 in ___pthread_mutex_lock (./nptl/pthread_mutex_lock.c:80); saved rip = 0x7fffbe57ddd1
+ called by frame at 0x7fffcf7fdac0
+ source language c.
+ Arglist at 0x7fffcf7fda90, args: mutex=0x7ff84ffb6e3b
+ Locals at 0x7fffcf7fda90, Previous frame's sp is 0x7fffcf7fdaa0
+ Saved registers:
+  rip at 0x7fffcf7fda98
+(gdb) thread apply all bt
+
+Thread 14 (Thread 0x7fffcd5fd6c0 (LWP 1984) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=<optimized out>, cancel=true, abstime=0x7fffcd5fcd20, op=393, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=<optimized out>, abstime=0x7fffcd5fcd20, clockid=0, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x7fffb4017af0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x7fffcd5fcd20, private=<optimized out>) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7aa5cf0 in do_futex_wait (sem=sem@entry=0x7fffb4017af0, abstime=abstime@entry=0x7fffcd5fcd20, clockid=0) at ./nptl/sem_waitcommon.c:111
+#4  0x00007ffff7aa5d93 in __new_sem_wait_slow64 (sem=0x7fffb4017af0, abstime=0x7fffcd5fcd20, clockid=0) at ./nptl/sem_waitcommon.c:183
+#5  0x00007fffbe5f4538 in duckdb::TaskScheduler::ExecuteForever(std::atomic<bool>*) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#6  0x00007ffff7e1ddb4 in std::execute_native_thread_routine (__p=0x7fffb409f510) at ../../../../../src/libstdc++-v3/src/c++11/thread.cc:104
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 13 (Thread 0x7fffcddfe6c0 (LWP 1983) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=<optimized out>, cancel=true, abstime=0x7fffcddfdd20, op=393, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=<optimized out>, abstime=0x7fffcddfdd20, clockid=0, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x7fffb4017af0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x7fffcddfdd20, private=<optimized out>) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7aa5cf0 in do_futex_wait (sem=sem@entry=0x7fffb4017af0, abstime=abstime@entry=0x7fffcddfdd20, clockid=0) at ./nptl/sem_waitcommon.c:111
+#4  0x00007ffff7aa5d93 in __new_sem_wait_slow64 (sem=0x7fffb4017af0, abstime=0x7fffcddfdd20, clockid=0) at ./nptl/sem_waitcommon.c:183
+#5  0x00007fffbe5f4538 in duckdb::TaskScheduler::ExecuteForever(std::atomic<bool>*) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#6  0x00007ffff7e1ddb4 in std::execute_native_thread_routine (__p=0x7fffb409cc10) at ../../../../../src/libstdc++-v3/src/c++11/thread.cc:104
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 12 (Thread 0x7fffce5ff6c0 (LWP 1982) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=<optimized out>, cancel=true, abstime=0x7fffce5fed20, op=393, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=<optimized out>, abstime=0x7fffce5fed20, clockid=0, expected=0, futex_word=0x7fffb4017af0) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x7fffb4017af0, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x--Type <RET> for more, q to quit, c to continue without paging--
+7fffce5fed20, private=<optimized out>) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7aa5cf0 in do_futex_wait (sem=sem@entry=0x7fffb4017af0, abstime=abstime@entry=0x7fffce5fed20, clockid=0) at ./nptl/sem_waitcommon.c:111
+#4  0x00007ffff7aa5d93 in __new_sem_wait_slow64 (sem=0x7fffb4017af0, abstime=0x7fffce5fed20, clockid=0) at ./nptl/sem_waitcommon.c:183
+#5  0x00007fffbe5f4538 in duckdb::TaskScheduler::ExecuteForever(std::atomic<bool>*) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#6  0x00007ffff7e1ddb4 in std::execute_native_thread_routine (__p=0x7fffb409aa90) at ../../../../../src/libstdc++-v3/src/c++11/thread.cc:104
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 11 (Thread 0x7fffcf7fe6c0 (LWP 1981) "node"):
+#0  ___pthread_mutex_lock (mutex=0x7ff84ffb6e3b) at ./nptl/pthread_mutex_lock.c:80
+#1  0x00007fffbe57ddd1 in duckdb::ClientContext::LockContext() () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#2  0x00007fffbe5aed9a in duckdb::ClientContext::PendingQuery(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, duckdb::shared_ptr<duckdb::PreparedStatementData, true>&, duckdb::PendingQueryParameters const&) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#3  0x00007fffbe5aef46 in duckdb::PreparedStatement::PendingQuery(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#4  0x00007fffbe5aefe9 in duckdb::PreparedStatement::Execute(std::unordered_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, duckdb::BoundParameterData, duckdb::CaseInsensitiveStringHashFunction, duckdb::CaseInsensitiveStringEquality, std::allocator<std::pair<std::basic_string<char, std::char_traits<char>, std::allocator<char> > const, duckdb::BoundParameterData> > >&, bool) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#5  0x00007fffbe4e1778 in duckdb_execute_prepared () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/libduckdb.so
+#6  0x00007ffff410ffbd in ExecutePreparedWorker::Execute() () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+#7  0x00007ffff410e735 in Napi::AsyncWorker::OnAsyncWorkExecute(napi_env__*, void*) () from /home/pokutuna/duckdb-segmentation-fault/alpha19/node_modules/@duckdb/node-bindings-linux-x64/duckdb.node
+#8  0x0000000000f173e9 in node::ThreadPoolWork::ScheduleWork()::{lambda(uv_work_s*)#1}::_FUN(uv_work_s*) ()
+#9  0x0000000001ca3140 in worker (arg=0x0) at ../deps/uv/src/threadpool.c:122
+#10 0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#11 0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 10 (Thread 0x7fffcffff6c0 (LWP 1980) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:57
+--Type <RET> for more, q to quit, c to continue without paging--
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x686c3ec <cond+44>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x686c380 <mutex>, cond=0x686c3c0 <cond>) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000001ca31dc in worker (arg=0x0) at ../deps/uv/src/threadpool.c:76
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 9 (Thread 0x7ffff493e6c0 (LWP 1979) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x686c3ec <cond+44>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x686c380 <mutex>, cond=0x686c3c0 <cond>) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000001ca31dc in worker (arg=0x0) at ../deps/uv/src/threadpool.c:76
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 8 (Thread 0x7ffff513f6c0 (LWP 1978) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=32767, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=32767, abstime=0x0, clockid=0, expected=0, futex_word=0x686c3ec <cond+44>) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x686c3ec <cond+44>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x686c380 <mutex>, cond=0x686c3c0 <cond>) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=cond@entry=0x686c3c0 <cond>, mutex=mutex@entry=0x686c380 <mutex>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000001ca31dc in worker (arg=0x0) at ../deps/uv/src/threadpool.c:76
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 7 (Thread 0x7ffff51486c0 (LWP 1977) "node"):
+--Type <RET> for more, q to quit, c to continue without paging--
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=<optimized out>, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=<optimized out>, abstime=0x0, clockid=0, expected=0, futex_word=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=<optimized out>) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7aa5f1f in do_futex_wait (sem=sem@entry=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>, abstime=0x0, clockid=0) at ./nptl/sem_waitcommon.c:111
+#4  0x00007ffff7aa5fb8 in __new_sem_wait_slow64 (sem=sem@entry=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>, abstime=0x0, clockid=0) at ./nptl/sem_waitcommon.c:183
+#5  0x00007ffff7aa603d in __new_sem_wait (sem=sem@entry=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>) at ./nptl/sem_wait.c:42
+#6  0x0000000001cb73ea in uv__sem_wait (sem=<optimized out>) at ../deps/uv/src/unix/thread.c:639
+#7  uv_sem_wait (sem=0x68585e0 <node::inspector::(anonymous namespace)::start_io_thread_semaphore>) at ../deps/uv/src/unix/thread.c:695
+#8  0x00000000010e6935 in node::inspector::(anonymous namespace)::StartIoThreadMain(void*) ()
+#9  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#10 0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 6 (Thread 0x7ffff59f16c0 (LWP 1976) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x692a904, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x692a8b0, cond=0x692a8d8) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0x692a8d8, mutex=0x692a8b0) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000000fe323b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 5 (Thread 0x7ffff61f26c0 (LWP 1975) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x692a904, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x692a8b0, cond=0x692a8d8) at ./nptl/pthread_cond_wait.c:503
+--Type <RET> for more, q to quit, c to continue without paging--
+#4  ___pthread_cond_wait (cond=0x692a8d8, mutex=0x692a8b0) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000000fe323b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 4 (Thread 0x7ffff69f36c0 (LWP 1974) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x692a904) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x692a904, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x692a8b0, cond=0x692a8d8) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0x692a8d8, mutex=0x692a8b0) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000000fe323b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 3 (Thread 0x7ffff71f46c0 (LWP 1973) "node"):
+#0  0x00007ffff7a99d71 in __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0x692a900) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0x692a900) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x692a900, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x00007ffff7a9c7ed in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0x692a8b0, cond=0x692a8d8) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0x692a8d8, mutex=0x692a8b0) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000000001cb75b9 in uv_cond_wait (cond=<optimized out>, mutex=<optimized out>) at ../deps/uv/src/unix/thread.c:814
+#6  0x0000000000fe323b in node::(anonymous namespace)::PlatformWorkerThread(void*) ()
+#7  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#8  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 2 (Thread 0x7ffff79fc6c0 (LWP 1972) "node"):
+#0  0x00007ffff7b2aee0 in __GI_epoll_pwait (epfd=epfd@entry=10, events=events@entry=0x7ffff79f8ca0, maxevents=maxevents@entry=1024, timeout=timeout@entry=-1, set=set@entry=0x0) at ../sysdeps/unix/sysv/linux/epoll_pwait.c:40
+#1  0x0000000001cbcc62 in uv__io_poll (loop=loop@entry=0x692aac8, timeout=-1) at ../deps/uv/src/unix/linux.c:1464
+#2  0x0000000001ca7f27 in uv_run (loop=0x692aac8, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:458
+--Type <RET> for more, q to quit, c to continue without paging--
+#3  0x0000000000fe8370 in node::WorkerThreadsTaskRunner::DelayedTaskScheduler::Start()::{lambda(void*)#1}::_FUN(void*) ()
+#4  0x00007ffff7a9daa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#5  0x00007ffff7b2ac3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 1 (Thread 0x7ffff79ffcc0 (LWP 1969) "node"):
+#0  0x00007ffff7b2aee0 in __GI_epoll_pwait (epfd=epfd@entry=15, events=events@entry=0x7fffffffa7b0, maxevents=maxevents@entry=1024, timeout=timeout@entry=7399, set=set@entry=0x0) at ../sysdeps/unix/sysv/linux/epoll_pwait.c:40
+#1  0x0000000001cbcc62 in uv__io_poll (loop=loop@entry=0x686c420 <default_loop_struct>, timeout=7399) at ../deps/uv/src/unix/linux.c:1464
+#2  0x0000000001ca7f27 in uv_run (loop=0x686c420 <default_loop_struct>, mode=UV_RUN_DEFAULT) at ../deps/uv/src/unix/core.c:458
+#3  0x0000000000e526d6 in node::SpinEventLoopInternal(node::Environment*) ()
+#4  0x0000000000fae371 in node::NodeMainInstance::Run() ()
+#5  0x0000000000f0dd4b in node::Start(int, char**) ()
+#6  0x00007ffff7a2b1ca in __libc_start_call_main (main=main@entry=0xe47ef0 <main>, argc=argc@entry=2, argv=argv@entry=0x7fffffffdbb8) at ../sysdeps/nptl/libc_start_call_main.h:58
+#7  0x00007ffff7a2b28b in __libc_start_main_impl (main=0xe47ef0 <main>, argc=2, argv=0x7fffffffdbb8, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffdba8) at ../csu/libc-start.c:360
+#8  0x0000000000e4fade in _start ()
