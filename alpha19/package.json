@@ -1,0 +1,7 @@
+{
+  "name": "duckdb-test-alpha19",
+  "version": "1.0.0",
+  "dependencies": {
+    "@duckdb/node-api": "1.2.2-alpha.19"
+  }
+}
