@@ -1,3 +1,8 @@
+This issue was resolved on 1.3.0-alpha.21.
+https://github.com/duckdb/duckdb-node-neo/issues/220
+
+---
+
 # DuckDB Node.js API Segmentation Fault Reproduction
 
 This repository demonstrates a segmentation fault issue in `@duckdb/node-api` version 1.2.2-alpha.19 when using the `list_cosine_similarity` function.
